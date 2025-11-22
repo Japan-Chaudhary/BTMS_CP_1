@@ -221,7 +221,7 @@
         </div>
 
         <div class="signup-link">
-            Don't have an account? <a href="#">Register</a>
+            Don't have an account? <a href="/BTMS_CP_1/Registration.php">Register</a>
         </div>
     </div>
 
