@@ -1,3 +1,12 @@
+<?php
+// registration.php - Registration form page
+session_start();
+$errors = isset($_SESSION['errors']) ? $_SESSION['errors'] : [];
+$formData = isset($_SESSION['form_data']) ? $_SESSION['form_data'] : [];
+unset($_SESSION['errors']);
+unset($_SESSION['form_data']);
+?>
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -8,12 +17,19 @@
 </head>
 <body>
     
-
+    
     <div class="main-content">
         <div class="registration-container">
             <h1>Create Account</h1>
             <p class="subtitle">Join us today and get started</p>
-
+             <?php if (!empty($errors)): ?>
+                <div class="error-message" style="display: block;">
+                    <?php foreach ($errors as $error): ?>
+                        <p><?php echo htmlspecialchars($error); ?></p>
+                    <?php endforeach; ?>
+                </div>
+            <?php endif; ?>
+            <form action="register.php" method="POST">
             <form onsubmit="handleRegister(event)">
                 <div class="form-row">
                     <div class="form-group">
@@ -55,11 +71,11 @@
                         <label for="city">City</label>
                         <select id="city" name="city" required>
                             <option value="">City</option>
-                            <option value="mumbai">Mehsana</option>
-                            <option value="delhi">Palanpur</option>
-                            <option value="bangalore">Ahemdabad</option>
-                            <option value="kolkata">Visnagar</option>
-                            <option value="chennai">Patan</option>
+                            <option value="Mehsana">Mehsana</option>
+                            <option value="Palanpur">Palanpur</option>
+                            <option value="Ahemdabad">Ahemdabad</option>
+                            <option value="Visnagar">Visnagar</option>
+                            <option value="Patan">Patan</option>
                         </select>
                     </div>
                 </div>
@@ -153,3 +169,23 @@
     </script>
 </body>
 </html>
+
+<?php
+// SQL to create the users table
+/*
+CREATE TABLE users (
+    id INT AUTO_INCREMENT PRIMARY KEY,
+    first_name VARCHAR(100) NOT NULL,
+    email VARCHAR(150) NOT NULL UNIQUE,
+    user_type ENUM('student', 'faculty') NOT NULL,
+    enrollment_number VARCHAR(50) NOT NULL UNIQUE,
+    phone VARCHAR(15) NOT NULL,
+    city VARCHAR(100) NOT NULL,
+    password VARCHAR(255) NOT NULL,
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+    INDEX idx_email (email),
+    INDEX idx_enrollment (enrollment_number)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+*/
+?>
